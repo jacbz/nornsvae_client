@@ -1,3 +1,3 @@
-# NornsVAE
+# NornsVAE Client
 
-Main repo located at https://github.com/jacbz/NornsVAE
+Instructions on how to use this are found in the main repo here: https://github.com/jacbz/NornsVAE

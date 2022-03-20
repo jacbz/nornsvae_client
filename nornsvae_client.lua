@@ -20,7 +20,7 @@ MusicUtil = require "musicutil"
 
 local grid = util.file_exists(_path.code.."midigrid") and include "midigrid/lib/mg_128" or grid
 
-server_ip = util.os_capture("cat " .. _path.code .. "nornsvae/server-ip")
+server_ip = util.os_capture("cat " .. _path.code .. "nornsvae_client/server-ip")
 server = "http://" .. server_ip .. ":5000/"
 
 total_steps = 16
@@ -154,7 +154,7 @@ function attr_values_str()
 end
 
 function load_drum_samples()  
-  sample_directory = _path.code .. "nornsvae/audio/"
+  sample_directory = _path.code .. "nornsvae_client/audio/"
   samples = {
     "1.wav",
     "2.wav",
@@ -181,7 +181,7 @@ function init()
 
     local init_response = ''
     while init_response ~= 'OK' do
-      print("Attempting to contact server")
+      print("Attempting to contact server " .. server)
       init_response = server_init()      
       clock.sleep(1/2)
     end
