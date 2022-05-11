@@ -2,14 +2,33 @@
 -- jacob zhang
 --
 --
--- E1 interpolation slider
--- E2 attribute selector
--- E3 attribute slider
+-- E1: interpolation slider
+-- E2: attribute selector
+-- E3: attribute slider
 --
--- K1 reload fresh sequences
--- K2 edit left sequence
--- K3 edit right sequence
-
+-- K1: reload fresh sequences
+-- K2: edit left sequence
+-- K3: edit right sequence
+--
+-- Grid: edit patterns
+--
+-- instruments:
+-- - ride cymbal
+-- - crash cymbal
+-- - high tom
+-- - low tom
+-- - open hi-hat
+-- - closed hi-hat
+-- - snare drum
+-- - bass drum
+--
+-- attributes:
+-- - DS (density)
+-- - BD (bass drum)
+-- - SD (snare drum)
+-- - HH (hi-hats)
+-- - TO (toms)
+-- - CY (cymbals)
 
 Ack = require 'ack/lib/ack'
 engine.name = 'Ack'
