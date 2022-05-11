@@ -21,7 +21,7 @@ MusicUtil = require "musicutil"
 local grid = util.file_exists(_path.code.."midigrid") and include "midigrid/lib/mg_128" or grid
 
 server_ip = util.os_capture("cat " .. _path.code .. "nornsvae_client/server-ip")
-server = "http://" .. server_ip .. ":5000/"
+server = "http://" .. server_ip .. "/"
 
 total_steps = 16
 bpm = 100
