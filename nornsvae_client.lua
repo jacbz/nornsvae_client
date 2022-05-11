@@ -128,10 +128,10 @@ function server_lookahead()
 end
 
 function server_replace()
-  mode_current_step = { 0, 0, 0, 0, 0, 0 }
   local dict1 = json.encode(lookahead[tostring(0)][attr_values_str()])
   local dict2 = json.encode(lookahead[tostring(interpolation_steps-1)][attr_values_str()])
   job_id = util.os_capture("curl -g -s '" .. server .. "replace?dict1=" .. dict1 .. "&dict2=" .. dict2 .. "' --max-time 0.5")
+  mode_current_step = { 0, 0, 0, 0, 0, 0 }
 end
 
 function server_reload()
