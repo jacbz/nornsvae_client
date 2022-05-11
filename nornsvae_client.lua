@@ -174,6 +174,7 @@ function init()
   load_drum_samples()
 
   redraw()
+  
   clock.run(function()
     log("init_client", {})
 
@@ -195,18 +196,20 @@ function init()
     
     initialized = true
     redraw()
+    
+    -- SERVER STUFF
+    clock.run(handle_server)
+    -- SEQUENCE STUFF
     clock.run(step)
     
   end)
 end
 
-
-function step()
+function handle_server ()
   while true do
     clock.sync(step_length)
-
+    
     if connection_lost then
-      redraw()
       return
     end
 
@@ -224,6 +227,23 @@ function step()
       server_sync()
     end
 
+    -- send log
+    --if current_step == 1 and string.len(current_log) > 0 then
+    --  server_log()
+    --end
+  end
+end
+
+
+function step()
+  while true do
+    clock.sync(step_length)
+
+    if connection_lost then
+      redraw()
+      return
+    end
+
     local notes = get_current_notes()
 
     local notes_at_step = notes[tostring(current_step-1)]
@@ -237,11 +257,8 @@ function step()
     current_step = current_step + 1
     if current_step > total_steps then current_step = 1 end
     redraw()
-
-    -- send log
-    if current_step == 1 and string.len(current_log) > 0 then
-      server_log()
-    end
+    
+    grid_redraw()
   end
 end
 
@@ -356,22 +373,6 @@ function redraw()
     end
   end
 
-  g:all(0)
-  local pad_notes = get_current_pad_notes()
-  for step = 1, total_steps do
-    local notes_at_step = pad_notes[tostring(step-1)]
-    if notes_at_step then      
-      for i, note in pairs(notes_at_step) do
-        level = (current_step == step) and 15 or 4
-        screen.level(level)
-        if step < 17 then
-          g:led(step, note, level)
-        end
-      end
-    end
-    g:refresh()
-  end
-
   -- map
   local left = 128 - 50
   local top = 1
@@ -412,6 +413,25 @@ function redraw()
   end
 
   screen.update()
+end
+
+grid_redraw = function ()
+  g:all(0)
+  local pad_notes = get_current_pad_notes()
+  for step = 1, total_steps do
+    local notes_at_step = pad_notes[tostring(step-1)]
+    if notes_at_step then      
+      for i, note in pairs(notes_at_step) do
+        level = (current_step == step) and 15 or 4
+        --screen.level(level)
+        if step < 17 then
+          g:led(step, note, level)
+        end
+      end
+    end
+    
+  end
+  g:refresh()
 end
 
 g = grid.connect()
