@@ -76,7 +76,7 @@ lookahead = {}
 
 -- server communication
 job_id = nil
-trigger_lookahead_at_step = nil  -- when setting this to a step, a lookahead call will be triggered at that step
+trigger_lookahead_at_next_step = false  -- when setting this to true, a lookahead call will be triggered at the next step
 trigger_replace_at_step = nil  -- when setting this to a step, a replace call will be triggered at that step
 
 
@@ -224,7 +224,7 @@ function init()
   end)
 end
 
-function handle_server ()
+function handle_server()
   while true do
     clock.sync(step_length)
     
@@ -232,8 +232,8 @@ function handle_server ()
       return
     end
 
-    if trigger_lookahead_at_step ~= nil and current_step == (trigger_lookahead_at_step % total_steps) then
-      trigger_lookahead_at_step = nil
+    if trigger_lookahead_at_next_step then
+      trigger_lookahead_at_next_step = false
       server_lookahead()
     end
 
@@ -313,7 +313,7 @@ function enc(n, d)
     m = util.clamp(mode + d, 1, #modes)
     if m ~= mode then
       mode = m
-      trigger_lookahead_at_step = current_step + 1
+      trigger_lookahead_at_next_step = true
       log("change_mode", {
         mode = mode
       })
