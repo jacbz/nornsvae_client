@@ -149,6 +149,7 @@ function get_current_notes()
     return dict.notes
   else
     print("Error: interpolation ".. tostring(current_interpolation-1) .. " not found for " ..  attr_values_str())
+    trigger_lookahead_at_next_step = true -- hotfix?
     return {}
   end
 end
@@ -160,6 +161,7 @@ function get_current_pad_notes()
     return dict.notes
   else
     print("Error: interpolation ".. tostring(interpolation-1) .. " not found for " ..  attr_values_str())
+    trigger_lookahead_at_next_step = true -- hotfix?
     return {}
   end
 end
