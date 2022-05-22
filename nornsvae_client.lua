@@ -79,9 +79,30 @@ job_id = nil
 trigger_lookahead_at_next_step = false  -- when setting this to true, a lookahead call will be triggered at the next step
 trigger_replace_at_step = nil  -- when setting this to a step, a replace call will be triggered at that step
 
-
 -- logging
 current_log = ""
+
+-- midi
+midi_device = {}
+midi_device_names = {}
+target = 2
+for i = 1, #midi.vports do
+  midi_device[i] = midi.connect(i)
+  local full_name = table.insert(midi_device_names, "port "..i..": "..util.trim_string_to_width(midi_device[i].name,40))
+end
+params:add_option("midi target", "midi target", midi_device_names,1)
+params:set_action("midi target", function(x) target = x end)
+drum_midi_notes = {
+  51, -- Ride Cymbal 1
+  49, -- Crash Cymbal 1
+  50, -- High Tom
+  45, -- Low Tom
+  46, -- Open Hi-hat
+  42, -- Closed Hi-hat
+  38, -- Acoustic Snare
+  36 -- Electric Bass Drum
+}
+
 
 function log(type, data)
   entry = {
@@ -269,9 +290,12 @@ function step()
 
     local notes_at_step = notes[tostring(current_step-1)]
 
+    midiAllOff()
+    
     if notes_at_step then
       for i, note in pairs(notes_at_step) do
         engine.trig(note-1)
+        midi_device[target]:note_on(drum_midi_notes[note], 100, 10)
       end
     end
 
@@ -485,4 +509,10 @@ function toggleDrum(x, y)
     step = x,
     pitch = y
   })
+end
+
+function midiAllOff()
+  for note = 1, #drum_midi_notes do
+    midi_device[target]:note_off(drum_midi_notes[note], 100, 10)
+  end
 end
