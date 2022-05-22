@@ -249,9 +249,9 @@ function handle_server()
     end
 
     -- send log
-    --if current_step == 1 and string.len(current_log) > 0 then
-    --  server_log()
-    --end
+    if current_step == 1 and string.len(current_log) > 0 then
+     server_log()
+    end
   end
 end
 
@@ -343,11 +343,6 @@ end
 function redraw()
   screen.clear()
 
-  -- screen.level(4)
-  -- screen.move(0, 10)
-  -- screen.font_size(8)
-  -- screen.text('THESIS')
-
   if connection_lost then
     screen.move(0,20)
     screen.level(15)
@@ -404,12 +399,7 @@ function redraw()
   for step = 1, interpolation_steps do
     screen.level(step == current_interpolation and 15 or 4)
     draw_sample(lookahead[tostring(step-1)][attr_values_str()], left, top)  
-  end  
-
-  -- current step
-  -- screen.level(1)
-  -- screen.rect((current_step - 1) * 4, 0, 1, 64)
-  -- screen.fill()
+  end
 
   -- divider line
   screen.level(2)
