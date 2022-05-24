@@ -30,7 +30,7 @@
 -- - TO (toms)
 -- - CY (cymbals)
 
-Ack = require "ack/lib/ack"
+Ack = include("lib/ack")
 engine.name = "Ack"
 
 util = require "util"
